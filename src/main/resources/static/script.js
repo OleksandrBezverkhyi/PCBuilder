@@ -27,11 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             console.log("Received response:", result);
 
-            let output = "<h2>Ваш ПК:</h2><ul>";
+            let output = "<h2 class=\"orange\">Ваш ПК:</h2><ul>";
             for (const key in result.components) {
-                output += `<li><strong>${key}:</strong> ${result.components[key]}</li>`;
+                output += `<li><strong class="orange">${key}:</strong> ${result.components[key]}</li>`;
             }
-            output += `</ul><p><strong>Загальна ціна:</strong> ${result.totalPrice} грн</p>`;
+            output += `</ul><p><strong class="orange">Загальна ціна:</strong> ${result.totalPrice} грн</p>`;
             document.getElementById("result").innerHTML = output;
         } catch (error) {
             console.error("Error:", error);

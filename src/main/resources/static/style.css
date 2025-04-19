@@ -1,6 +1,6 @@
 body {
     background-color: #111;
-    color: #ff6f00;
+    color: white;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -32,6 +32,34 @@ select {
     padding: 10px;
     margin-bottom: 1rem;
     background-color: #222;
-    color: #ff6f00;
+    color: white;
     border: 1px solid #ff6f00;
+    border-radius: 5px;
+}
+
+#result {
+    color: white;
+}
+
+#result h2 {
+    margin-bottom: 15px;
+}
+
+#result ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#result li {
+    margin-bottom: 8px;
+}
+
+#result p {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 15px;
+}
+
+.orange {
+    color: #ff6f00;
 }
