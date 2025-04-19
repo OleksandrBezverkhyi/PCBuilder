@@ -1,0 +1,43 @@
+<!-- static/builder.html -->
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Збірка ПК</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Збери свій ПК</h1>
+
+    <form id="build-form">
+        <label>Процесор:</label>
+        <select id="cpu"></select>
+
+        <label>Відеокарта:</label>
+        <select id="gpu"></select>
+
+        <label>ОЗП:</label>
+        <select id="ram"></select>
+
+        <label>Накопичувач:</label>
+        <select id="storage"></select>
+
+        <label>Материнська плата:</label>
+        <select id="motherboard"></select>
+
+        <label>Блок живлення:</label>
+        <select id="psu"></select>
+
+        <label>Корпус:</label>
+        <select id="pccase"></select>
+
+        <button type="submit">Зібрати</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
