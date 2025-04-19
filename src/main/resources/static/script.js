@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const components = ["cpu", "gpu", "ram", "storage", "motherboard", "psu", "pc_case"]; // Змінив pc_case на case
+    const components = ["cpu", "gpu", "ram", "storage", "motherboard", "psu", "pc_case"];
     components.forEach(loadOptions);
 
     document.getElementById("build-form").addEventListener("submit", async (e) => {

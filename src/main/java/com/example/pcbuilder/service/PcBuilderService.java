@@ -33,7 +33,7 @@ public class PcBuilderService {
 
     public CPU getCpuById(Long id) {
         Optional<CPU> cpuOptional = cpuRepository.findById(id);
-        return cpuOptional.orElse(null); // повертаємо null, якщо CPU не знайдено
+        return cpuOptional.orElse(null);
     }
 
     public GPU getGpuById(Long id) {
