@@ -15,23 +15,13 @@ import java.util.Map;
 public class BuildController {
 
     @Autowired
-    private PcBuilderService pcBuilderService; // інжекція сервісу
+    private PcBuilderService pcBuilderService;
 
     @PostMapping
     public BuildResponse buildPC(@RequestBody BuildRequest request) {
-        System.out.println("Received build request:");
-        System.out.println("CPU ID: " + request.CPU);
-        System.out.println("GPU ID: " + request.GPU);
-        System.out.println("RAM ID: " + request.RAM);
-        System.out.println("Storage ID: " + request.STORAGE);
-        System.out.println("Motherboard ID: " + request.MOTHERBOARD);
-        System.out.println("PSU ID: " + request.PSU);
-        System.out.println("Case ID: " + request.CASE);
-
         Map<String, String> selectedComponents = new LinkedHashMap<>();
         double totalPrice = 0;
 
-        // Замість безпосереднього звернення до репозиторіїв, викликаємо методи сервісу
         CPU cpu = pcBuilderService.getCpuById(request.CPU);
         GPU gpu = pcBuilderService.getGpuById(request.GPU);
         RAM ram = pcBuilderService.getRamById(request.RAM);
@@ -40,7 +30,6 @@ public class BuildController {
         PSU psu = pcBuilderService.getPsuById(request.PSU);
         Case pcCase = pcBuilderService.getCaseById(request.CASE);
 
-        // Додаємо компоненти до результату
         if (cpu != null) {
             selectedComponents.put("CPU", cpu.getName());
             totalPrice += cpu.getPrice();
@@ -92,7 +81,6 @@ public class BuildController {
 
         System.out.println("Total Price: " + totalPrice);
 
-        // Повертаємо відповідь
         return new BuildResponse(selectedComponents, totalPrice);
     }
 }

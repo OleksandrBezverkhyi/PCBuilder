@@ -1,10 +1,14 @@
 package com.example.pcbuilder.dto;
 
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BuildResponse {
-    public Map<String, String> components;
-    public double totalPrice;
+    @JsonProperty("components")
+    private Map<String, String> components;
+
+    @JsonProperty("totalPrice")
+    private double totalPrice;
 
     public BuildResponse(Map<String, String> components, double totalPrice) {
         this.components = components;

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const components = ["cpu", "gpu", "ram", "storage", "motherboard", "psu", "pc_case"];
+    const components = ["cpu", "gpu", "ram", "storage", "motherboard", "psu", "pc_case"]; // Змінив pc_case на case
     components.forEach(loadOptions);
 
     document.getElementById("build-form").addEventListener("submit", async (e) => {
@@ -7,34 +7,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const data = {};
         components.forEach(comp => {
-            data[comp.toUpperCase()] = document.getElementById(comp).value;
+            // Для case використовуємо "CASE" як у бекенді
+            const key = comp === "pc_case" ? "CASE" : comp.toUpperCase();
+            data[key] = document.getElementById(comp).value;
         });
 
-        const response = await fetch("/api/build", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
-        });
+        console.log("Sending data:", data); // Додав логування
 
-        const result = await response.json();
+        try {
+            const response = await fetch("/api/build", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
 
-        let output = "<h2>Ваш ПК:</h2><ul>";
-        for (const key in result.components) {
-            output += `<li><strong>${key}:</strong> ${result.components[key]}</li>`;
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("Received response:", result); // Додав логування
+
+            let output = "<h2>Ваш ПК:</h2><ul>";
+            for (const key in result.components) {
+                output += `<li><strong>${key}:</strong> ${result.components[key]}</li>`;
+            }
+            output += `</ul><p><strong>Загальна ціна:</strong> ${result.totalPrice} грн</p>`;
+            document.getElementById("result").innerHTML = output;
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById("result").innerHTML =
+                "<p>Сталася помилка при збірці ПК. Будь ласка, спробуйте ще раз.</p>";
         }
-        output += `</ul><p><strong>Загальна ціна:</strong> ${result.totalPrice} грн</p>`;
-        document.getElementById("result").innerHTML = output;
     });
 });
 
 async function loadOptions(component) {
-    const response = await fetch(`/api/components/${component}`);
-    const data = await response.json();
-    const select = document.getElementById(component);
-    data.forEach(item => {
-        const option = document.createElement("option");
-        option.value = item.id;
-        option.text = `${item.name} (${item.price} грн)`;
-        select.appendChild(option);
-    });
+    try {
+        const response = await fetch(`/api/components/${component}`);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${component} options`);
+        }
+        const data = await response.json();
+        const select = document.getElementById(component);
+
+        // Очистити існуючі опції (крім першої)
+        while (select.options.length > 1) {
+            select.remove(1);
+        }
+
+        data.forEach(item => {
+            const option = document.createElement("option");
+            option.value = item.id;
+            option.textContent = `${item.name} (${item.price} грн)`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error(`Error loading ${component} options:`, error);
+    }
 }

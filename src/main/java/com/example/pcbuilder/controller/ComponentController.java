@@ -43,11 +43,10 @@ public class ComponentController {
             case "storage" -> storageRepository.findAll();
             case "motherboard" -> motherboardRepository.findAll();
             case "psu" -> psuRepository.findAll();
-            case "pccase" -> pcCaseRepository.findAll();
+            case "pc_case" -> pcCaseRepository.findAll();
             default -> throw new IllegalArgumentException("Unknown component type: " + type);
         };
 
-        System.out.println("Fetched components: " + components.size());
         return components;
     }
 }
