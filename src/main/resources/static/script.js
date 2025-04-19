@@ -7,12 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const data = {};
         components.forEach(comp => {
-            // Для case використовуємо "CASE" як у бекенді
             const key = comp === "pc_case" ? "CASE" : comp.toUpperCase();
             data[key] = document.getElementById(comp).value;
         });
 
-        console.log("Sending data:", data); // Додав логування
+        console.log("Sending data:", data);
 
         try {
             const response = await fetch("/api/build", {
@@ -26,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const result = await response.json();
-            console.log("Received response:", result); // Додав логування
+            console.log("Received response:", result);
 
             let output = "<h2>Ваш ПК:</h2><ul>";
             for (const key in result.components) {
@@ -51,7 +50,6 @@ async function loadOptions(component) {
         const data = await response.json();
         const select = document.getElementById(component);
 
-        // Очистити існуючі опції (крім першої)
         while (select.options.length > 1) {
             select.remove(1);
         }
