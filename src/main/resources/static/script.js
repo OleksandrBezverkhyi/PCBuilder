@@ -27,16 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             console.log("Received response:", result);
 
-            let output = "<h2 class=\"orange\">Ваш ПК:</h2><ul>";
+            let output = `
+    <div class="result-box">
+        <h1>
+            <span class="white-text">Ваш</span>
+            <span class="orange-box">ПК</span>
+        </h1>
+        <ul>`;
             for (const key in result.components) {
                 output += `<li><strong class="orange">${key}:</strong> ${result.components[key]}</li>`;
             }
-            output += `</ul><p><strong class="orange">Загальна ціна:</strong> ${result.totalPrice} грн</p>`;
+            output += `</ul>
+        <p><strong class="orange">Загальна ціна:</strong> ${result.totalPrice} грн</p>
+    </div>`;
             document.getElementById("result").innerHTML = output;
+            document.getElementById("result").classList.add("visible");
         } catch (error) {
             console.error("Error:", error);
             document.getElementById("result").innerHTML =
                 "<p>Сталася помилка при збірці ПК. Будь ласка, спробуйте ще раз.</p>";
+            document.getElementById("result").classList.add("visible");
         }
     });
 });
