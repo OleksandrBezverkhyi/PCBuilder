@@ -49,7 +49,7 @@ select {
 }
 
 #result {
-    display: none; /* Приховано за замовчуванням */
+    display: none; 
 }
 
 #result.visible {
