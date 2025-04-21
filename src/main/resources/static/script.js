@@ -42,11 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>`;
             document.getElementById("result").innerHTML = output;
             document.getElementById("result").classList.add("visible");
+            document.getElementById("result").scrollIntoView({ behavior: "smooth" });
         } catch (error) {
             console.error("Error:", error);
             document.getElementById("result").innerHTML =
                 "<p>Сталася помилка при збірці ПК. Будь ласка, спробуйте ще раз.</p>";
             document.getElementById("result").classList.add("visible");
+            document.getElementById("result").scrollIntoView({ behavior: "smooth" });
         }
     });
 });
