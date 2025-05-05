@@ -1,4 +1,3 @@
- sql
 CREATE TABLE cpu (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
