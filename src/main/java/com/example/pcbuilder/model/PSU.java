@@ -10,12 +10,14 @@ public class PSU {
 
     private String name;
     private double price;
+    private int wattage;
 
     public PSU() {}
 
-    public PSU(String name, double price) {
+    public PSU(String name, double price, int wattage) {
         this.name = name;
         this.price = price;
+        this.wattage = wattage;
     }
 
     public Long getId() {
@@ -30,6 +32,10 @@ public class PSU {
         return price;
     }
 
+    public int getWattage() {
+        return wattage;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -40,5 +46,9 @@ public class PSU {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setWattage(int wattage) {
+        this.wattage = wattage;
     }
 }

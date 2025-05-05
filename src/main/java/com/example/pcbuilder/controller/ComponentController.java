@@ -1,6 +1,5 @@
 package com.example.pcbuilder.controller;
 
-import com.example.pcbuilder.model.*;
 import com.example.pcbuilder.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

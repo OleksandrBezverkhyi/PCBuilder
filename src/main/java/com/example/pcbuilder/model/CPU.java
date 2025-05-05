@@ -10,12 +10,14 @@ public class CPU {
 
     private String name;
     private double price;
+    private String socket;
 
     public CPU() {}
 
-    public CPU(String name, double price) {
+    public CPU(String name, double price, String socket) {
         this.name = name;
         this.price = price;
+        this.socket = socket;
     }
 
     public Long getId() {
@@ -30,6 +32,10 @@ public class CPU {
         return price;
     }
 
+    public String getSocket() {
+        return socket;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -40,5 +46,9 @@ public class CPU {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setSocket(String socket) {
+        this.socket = socket;
     }
 }

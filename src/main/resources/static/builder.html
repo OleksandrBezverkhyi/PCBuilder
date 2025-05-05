@@ -1,45 +1,52 @@
 <!DOCTYPE html>
-<html lang="uk">
-<head>
-    <meta charset="UTF-8">
-    <title>Збірка ПК</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
-    <h1>
-        <span class="white-text">Збери свій</span>
-        <span class="orange-box">ПК</span>
-    </h1>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>PC Builder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        <span class="white-text">Build your</span>
+        <span class="orange-box">PC</span>
+      </h1>
 
-    <form id="build-form">
-        <label class="orange">Процесор:</label>
+      <form id="build-form">
+        <label class="orange">CPU:</label>
         <select id="cpu"></select>
+        <div class="component-info" id="cpu-info"></div>
 
-        <label class="orange">Відеокарта:</label>
+        <label class="orange">GPU:</label>
         <select id="gpu"></select>
+        <div class="component-info" id="gpu-info"></div>
 
-        <label class="orange">ОЗП:</label>
+        <label class="orange">RAM:</label>
         <select id="ram"></select>
+        <div class="component-info" id="ram-info"></div>
 
-        <label class="orange">Накопичувач:</label>
+        <label class="orange">Storage:</label>
         <select id="storage"></select>
+        <div class="component-info" id="storage-info"></div>
 
-        <label class="orange">Материнська плата:</label>
+        <label class="orange">Motherboard:</label>
         <select id="motherboard"></select>
+        <div class="component-info" id="motherboard-info"></div>
 
-        <label class="orange">Блок живлення:</label>
+        <label class="orange">PSU:</label>
         <select id="psu"></select>
+        <div class="component-info" id="psu-info"></div>
 
-        <label class="orange">Корпус:</label>
+        <label class="orange">Case:</label>
         <select id="pc_case"></select>
+        <div class="component-info" id="pc_case-info"></div>
 
-        <button type="submit">Зібрати</button>
-    </form>
+        <button type="submit">Build</button>
+      </form>
 
-    <div id="result"></div>
-</div>
+      <div id="result"></div>
+    </div>
 
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

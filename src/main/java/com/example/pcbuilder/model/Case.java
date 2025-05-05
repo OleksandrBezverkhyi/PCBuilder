@@ -11,12 +11,14 @@ public class Case {
 
     private String name;
     private double price;
+    private int maxGpuLengthMm;
 
     public Case() {}
 
-    public Case(String name, double price) {
+    public Case(String name, double price, int maxGpuLengthMm) {
         this.name = name;
         this.price = price;
+        this.maxGpuLengthMm = maxGpuLengthMm;
     }
 
     public Long getId() {
@@ -31,6 +33,10 @@ public class Case {
         return price;
     }
 
+    public int getMaxGpuLengthMm() {
+        return maxGpuLengthMm;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -41,5 +47,9 @@ public class Case {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setMaxGpuLengthMm(int maxGpuLengthMm) {
+        this.maxGpuLengthMm = maxGpuLengthMm;
     }
 }
