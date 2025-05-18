@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.CaseFormFactor;
 import jakarta.persistence.*;
 import java.util.Objects;
 
@@ -17,6 +18,7 @@ public class Case {
 
     private String name;
     private double price;
+    private CaseFormFactor compInterface;
 
     /**
      * Основний конструктор для створення об'єкта корпусу комп'ютера.

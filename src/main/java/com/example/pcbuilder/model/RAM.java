@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.RAMInterface;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class RAM {
 
     private String name;
     private double price;
+    private RAMInterface compInterface;
 
     /**
      * Конструктор, що створює новий об'єкт оперативної пам'яті.

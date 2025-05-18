@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.PSUInterface;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -17,6 +18,7 @@ public class PSU {
 
     private String name;
     private double price;
+    private PSUInterface compInterface;
 
     /**
      * Конструктор, що створює новий блок живлення з вказаними параметрами.

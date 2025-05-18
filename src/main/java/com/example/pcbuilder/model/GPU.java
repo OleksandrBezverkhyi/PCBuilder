@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.GPUInterface;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class GPU {
 
     private String name;
     private double price;
+    private GPUInterface compInterface;
 
 
     /**

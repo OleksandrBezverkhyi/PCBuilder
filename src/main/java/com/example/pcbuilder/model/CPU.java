@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.CPUSocket;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class CPU {
 
     private String name;
     private double price;
+    private CPUSocket compInterface;
 
     /**
      * Конструктор, що створює новий об'єкт CPU з вказаною назвою та ціною.

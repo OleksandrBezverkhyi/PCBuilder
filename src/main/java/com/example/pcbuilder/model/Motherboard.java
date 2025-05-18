@@ -1,7 +1,7 @@
 package com.example.pcbuilder.model;
 
 import jakarta.persistence.*;
-
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,6 +17,7 @@ public class Motherboard {
 
     private String name;
     private double price;
+
 
 
     /**

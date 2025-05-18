@@ -1,5 +1,6 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.StorageInterface;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -18,6 +19,7 @@ public class Storage {
 
     private String name;
     private double price;
+    private StorageInterface compInterface;
 
     /**
      * Основний конструктор для створення об'єкта Storage.
