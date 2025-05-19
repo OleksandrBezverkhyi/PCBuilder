@@ -4,6 +4,8 @@ import com.example.pcbuilder.dto.BuildRequest;
 import com.example.pcbuilder.dto.BuildResponse;
 import com.example.pcbuilder.model.*;
 import com.example.pcbuilder.service.PcBuilderService;
+import com.example.pcbuilder.builder.Computer;
+import com.example.pcbuilder.builder.ComputerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ public class BuildController {
         Map<String, String> compatibilityIssues = new LinkedHashMap<>();
         double totalPrice = 0;
 
+        // Отримання компонентів
         CPU cpu = pcBuilderService.getCpuById(request.CPU);
         GPU gpu = pcBuilderService.getGpuById(request.GPU);
         RAM ram = pcBuilderService.getRamById(request.RAM);
@@ -31,6 +34,19 @@ public class BuildController {
         PSU psu = pcBuilderService.getPsuById(request.PSU);
         Case pcCase = pcBuilderService.getCaseById(request.CASE);
 
+        // Використання ComputerBuilder для створення об'єкта Computer
+        ComputerBuilder computerBuilder = new ComputerBuilder()
+                .setCpu(cpu)
+                .setGpu(gpu)
+                .setRam(ram)
+                .setStorage(storage)
+                .setMotherboard(motherboard)
+                .setPsu(psu)
+                .setCase(pcCase);
+
+        Computer computer = computerBuilder.build();
+
+        // Розрахунок загальної вартості та перевірка сумісності
         if (cpu != null) {
             selectedComponents.put("CPU", cpu.getName());
             totalPrice += cpu.getPrice();
@@ -66,25 +82,23 @@ public class BuildController {
             totalPrice += pcCase.getPrice();
         }
 
-        // CPU <-> Motherboard
+        // Перевірка сумісності
         if (cpu != null && motherboard != null && !cpu.getSocket().equals(motherboard.getSocket())) {
             compatibilityIssues.put("CPU/Motherboard",
-                    "Incompatible sockets: CPU (" + cpu.getSocket() + ") ≠ Motherboard (" + motherboard.getSocket() + ")");
+                    "Несумісні сокети: CPU (" + cpu.getSocket() + ") ≠ Motherboard (" + motherboard.getSocket() + ")");
         }
 
-        // PSU <-> GPU
         if (gpu != null && psu != null && psu.getWattage() < gpu.getMinPsuWattage()) {
             compatibilityIssues.put("PSU/GPU",
-                    "Insufficient PSU wattage: PSU (" + psu.getWattage() + "W) < GPU minimum (" + gpu.getMinPsuWattage() + "W)");
+                    "Недостатня потужність PSU: PSU (" + psu.getWattage() + "W) < мінімум GPU (" + gpu.getMinPsuWattage() + "W)");
         }
 
-        // Case <-> GPU
         if (gpu != null && pcCase != null && gpu.getLengthMm() > pcCase.getMaxGpuLengthMm()) {
             compatibilityIssues.put("Case/GPU",
-                    "GPU is too long: GPU (" + gpu.getLengthMm() + "mm) > Case maximum (" + pcCase.getMaxGpuLengthMm() + "mm)");
+                    "GPU занадто довгий: GPU (" + gpu.getLengthMm() + "mm) > максимальна довжина Case (" + pcCase.getMaxGpuLengthMm() + "mm)");
         }
 
-        System.out.println("Total Price: " + totalPrice);
+        System.out.println("Загальна вартість: " + totalPrice);
 
         return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
     }
