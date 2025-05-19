@@ -1,7 +1,7 @@
 package com.example.pcbuilder.model;
 
+import com.example.pcbuilder.model.enums.IStringRepresentable;
 import jakarta.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,8 +17,7 @@ public class Motherboard {
 
     private String name;
     private double price;
-
-
+    private IStringRepresentable compInterfaces;
 
     /**
      * Основной конструктор для створення об'єкта материнської плати.

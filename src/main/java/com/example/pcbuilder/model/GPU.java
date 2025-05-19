@@ -19,7 +19,6 @@ public class GPU {
     private double price;
     private GPUInterface compInterface;
 
-
     /**
      * Конструктор, який ініціалізує відеокарту з вказаною назвою та ціною.
      *
