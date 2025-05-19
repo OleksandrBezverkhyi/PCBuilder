@@ -49,6 +49,14 @@ public class GPU {
         this.id = other.id;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     /**
      * Повертає ціну відеокарти.
      *
@@ -58,13 +66,21 @@ public class GPU {
         return price;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     /**
      * Повертає назву відеокарти.
      *
      * @return назва відеокарти (тип String)
      */
-    public String getName() {
-        return name;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     /**

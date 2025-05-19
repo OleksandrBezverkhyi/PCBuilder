@@ -2,6 +2,7 @@ package com.example.pcbuilder.model;
 
 import com.example.pcbuilder.model.enums.CaseFormFactor;
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 /**
@@ -20,13 +21,15 @@ public class Case {
     private double price;
     private CaseFormFactor compInterface;
 
+
+
     /**
      * Основний конструктор для створення об'єкта корпусу комп'ютера.
      *
-     * @param name назва моделі корпусу (не може бути null або пустою)
+     * @param name  назва моделі корпусу (не може бути null або пустою)
      * @param price вартість корпусу (має бути не менше 0)
      * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
-     * @throws NullPointerException якщо назва є null
+     * @throws NullPointerException     якщо назва є null
      */
     public Case(String name, double price) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
@@ -36,7 +39,8 @@ public class Case {
         this.name = name;
     }
 
-    public Case() {}
+    public Case() {
+    }
 
     /**
      * Конструктор копіювання для створення нового корпусу на основі існуючого.
@@ -67,6 +71,22 @@ public class Case {
      */
     public String getName() {
         return name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     /**

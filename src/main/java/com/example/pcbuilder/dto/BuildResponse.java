@@ -10,9 +10,13 @@ public class BuildResponse {
     @JsonProperty("totalPrice")
     private double totalPrice;
 
-    public BuildResponse(Map<String, String> components, double totalPrice) {
+    @JsonProperty("compatibilityIssues")
+    private Map<String, String> compatibilityIssues;
+
+    public BuildResponse(Map<String, String> components, double totalPrice, Map<String, String> compatibilityIssues) {
         this.components = components;
         this.totalPrice = totalPrice;
+        this.compatibilityIssues = compatibilityIssues;
     }
 
     public Map<String, String> getComponents() {
@@ -21,5 +25,9 @@ public class BuildResponse {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+    public Map<String, String> getCompatibilityIssues() {
+        return compatibilityIssues;
     }
 }
