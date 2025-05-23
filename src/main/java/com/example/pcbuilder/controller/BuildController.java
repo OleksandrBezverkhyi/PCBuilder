@@ -34,11 +34,12 @@ public class BuildController {
         PSU psu = pcBuilderService.getPsuById(request.PSU);
         Case pcCase = pcBuilderService.getCaseById(request.CASE);
 
+
         // Using ComputerBuilder to create a Computer object
         ComputerBuilder computerBuilder = new ComputerBuilder()
                 .setCpu(cpu)
                 .setGpu(gpu)
-                .setRam(ram)
+                .setRam(ram, 1)
                 .setStorage(storage)
                 .setMotherboard(motherboard)
                 .setPsu(psu)
@@ -80,22 +81,6 @@ public class BuildController {
         if (pcCase != null) {
             selectedComponents.put("Case", pcCase.getName());
             totalPrice += pcCase.getPrice();
-        }
-
-        // Compatibility checks
-        if (cpu != null && motherboard != null && !cpu.getSocket().equals(motherboard.getSocket())) {
-            compatibilityIssues.put("CPU/Motherboard",
-                    "Incompatible sockets: CPU (" + cpu.getSocket() + ") ≠ Motherboard (" + motherboard.getSocket() + ")");
-        }
-
-        if (gpu != null && psu != null && psu.getWattage() < gpu.getMinPsuWattage()) {
-            compatibilityIssues.put("PSU/GPU",
-                    "Insufficient PSU wattage: PSU (" + psu.getWattage() + "W) < GPU minimum (" + gpu.getMinPsuWattage() + "W)");
-        }
-
-        if (gpu != null && pcCase != null && gpu.getLengthMm() > pcCase.getMaxGpuLengthMm()) {
-            compatibilityIssues.put("Case/GPU",
-                    "GPU is too long: GPU (" + gpu.getLengthMm() + "mm) > Case maximum (" + pcCase.getMaxGpuLengthMm() + "mm)");
         }
 
         System.out.println("Total Price: " + totalPrice);

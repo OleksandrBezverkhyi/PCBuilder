@@ -48,6 +48,19 @@ public class Computer {
     public Case getPcCase() {
         return pcCase;
     }
+
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "cpu=" + cpu +
+                ", gpu=" + gpu +
+                ", ram=" + ram +
+                ", storage=" + storage +
+                ", motherboard=" + motherboard +
+                ", psu=" + psu +
+                ", pcCase=" + pcCase +
+                '}';
+    }
 }
 
 
