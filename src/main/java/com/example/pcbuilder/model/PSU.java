@@ -1,6 +1,5 @@
 package com.example.pcbuilder.model;
 
-import com.example.pcbuilder.model.enums.PSUInterface;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -18,25 +17,27 @@ public class PSU {
 
     private String name;
     private double price;
-    private PSUInterface compInterface;
 
     /**
-     * Конструктор, що створює новий блок живлення з вказаними параметрами.
+     * Основний конструктор для створення об'єкта блоку живлення.
      *
-     * @param name назва моделі блоку живлення (наприклад, "Corsair RM850x")
-     * @param price вартість блоку живлення (має бути не менше 0)
+     * @param name           назва моделі БЖ (не може бути null або пустою)
+     * @param price          вартість БЖ (має бути не менше 0)
      * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
-     * @throws NullPointerException якщо назва є null
+     * @throws NullPointerException     якщо назва є null
      */
     public PSU(String name, double price) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
-        this.name = name;
         this.price = price;
+        this.name = name;
     }
 
-    public PSU() {}
+    public PSU() {
+
+    }
+
 
     /**
      * Конструктор копіювання, що створює новий блок живлення на основі існуючого.
@@ -75,14 +76,6 @@ public class PSU {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
     /**

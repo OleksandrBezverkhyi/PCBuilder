@@ -1,6 +1,6 @@
 package com.example.pcbuilder.model.enums;
 
-public enum StorageInterface implements IStringRepresentable {
+public enum StorageInterface {
     SATA("SATA"),
     NVME("NVMe"),
     M_2("M.2");
@@ -11,8 +11,14 @@ public enum StorageInterface implements IStringRepresentable {
         this.value = value;
     }
 
-    @Override
-    public String getValue() {
-        return value;
+    public String getValue() {return value;}
+
+    public static StorageInterface fromValue(String value) {
+        for (StorageInterface storage : StorageInterface.values()) {
+            if (storage.getValue().equalsIgnoreCase(value)) {
+                return storage;
+            }
+        }
+        throw new IllegalArgumentException("Невідоме значення StorageInterface: " + value);
     }
 }

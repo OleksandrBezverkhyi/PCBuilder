@@ -34,11 +34,12 @@ public class BuildController {
         PSU psu = pcBuilderService.getPsuById(request.PSU);
         Case pcCase = pcBuilderService.getCaseById(request.CASE);
 
+
         // Using ComputerBuilder to create a Computer object
         ComputerBuilder computerBuilder = new ComputerBuilder()
                 .setCpu(cpu)
                 .setGpu(gpu)
-                .setRam(ram)
+                .setRam(ram, 1)
                 .setStorage(storage)
                 .setMotherboard(motherboard)
                 .setPsu(psu)

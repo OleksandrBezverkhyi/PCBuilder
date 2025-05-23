@@ -1,6 +1,6 @@
 package com.example.pcbuilder.model.enums;
 
-public enum CPUSocket implements IStringRepresentable {
+public enum CPUSocket{
     LGA1151("LGA 1151"),
     LGA1200("LGA 1200"),
     LGA1700("LGA 1700"),
@@ -15,8 +15,15 @@ public enum CPUSocket implements IStringRepresentable {
         this.value = value;
     }
 
-    @Override
-    public String getValue() {
-        return value;
+    public String getValue() {return value;}
+
+    public static CPUSocket fromValue(String value) {
+        for (CPUSocket socket : CPUSocket.values()) {
+            if (socket.getValue().equalsIgnoreCase(value)) {
+                return socket;
+            }
+        }
+        throw new IllegalArgumentException("Невідоме значення сокета: " + value);
     }
+
 }

@@ -17,25 +17,32 @@ public class GPU {
 
     private String name;
     private double price;
+    @Enumerated(EnumType.STRING)
     private GPUInterface compInterface;
 
     /**
-     * Конструктор, який ініціалізує відеокарту з вказаною назвою та ціною.
+     * Основний конструктор для створення об'єкта відеокарти.
      *
-     * @param name  назва відеокарти (наприклад, "NVIDIA RTX 4090")
-     * @param price ціна відеокарти у грошових одиницях
+     * @param name           назва моделі відеокарти (не може бути null або пустою)
+     * @param price          вартість відеокарти (має бути не менше 0)
+     * @param compInterface  інтерфейс відеокарти (не може бути null)
      * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
-     * @throws NullPointerException якщо назва є null
+     * @throws NullPointerException     якщо назва або інтерфейс є null
      */
-    public GPU(String name, double price) {
+    public GPU(String name, double price, String compInterface) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
-        this.name = name;
+        if (compInterface == null) throw new NullPointerException("Інтерфейс не може бути null");
         this.price = price;
+        this.name = name;
+        this.compInterface = GPUInterface.fromValue(compInterface);
     }
 
-    public GPU() {}
+    public GPU(){
+
+    }
+
 
     /**
      * Конструктор копіювання, який створює нову відеокарту на основі іншої.
@@ -81,6 +88,10 @@ public class GPU {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public GPUInterface getCompInterface() {
+        return compInterface;
     }
 
     /**

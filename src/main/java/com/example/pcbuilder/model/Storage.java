@@ -19,22 +19,26 @@ public class Storage {
 
     private String name;
     private double price;
+    @Enumerated(EnumType.STRING)
     private StorageInterface compInterface;
 
     /**
-     * Основний конструктор для створення об'єкта Storage.
+     * Основний конструктор для створення об'єкта накопичувача.
      *
-     * @param name назва пристрою зберігання (не може бути null або порожнім)
-     * @param price вартість пристрою (не може бути від'ємною)
-     * @throws IllegalArgumentException якщо ціна від'ємна або назва порожня
-     * @throws NullPointerException якщо назва є null
+     * @param name           назва моделі накопичувача (не може бути null або пустою)
+     * @param price          вартість накопичувача (має бути не менше 0)
+     * @param compInterface  інтерфейс накопичувача (не може бути null)
+     * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
+     * @throws NullPointerException     якщо назва або інтерфейс є null
      */
-    public Storage(String name, double price) {
+    public Storage(String name, double price, String compInterface) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
-        this.name = name;
+        if (compInterface == null) throw new NullPointerException("Інтерфейс не може бути null");
         this.price = price;
+        this.name = name;
+        this.compInterface = StorageInterface.fromValue(compInterface);
     }
 
     public Storage() {}
@@ -68,6 +72,14 @@ public class Storage {
      */
     public String getName() {
         return name;
+    }
+
+    public StorageInterface getCompInterface() {
+        return compInterface;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     /**

@@ -17,23 +17,30 @@ public class CPU {
 
     private String name;
     private double price;
+    @Enumerated(EnumType.STRING)
     private CPUSocket compInterface;
 
     /**
-     * Конструктор, що створює новий об'єкт CPU з вказаною назвою та ціною.
+     * Основний конструктор для створення об'єкта процесора.
      *
-     * @param name назва процесора
-     * @param price ціна процесора
+     * @param name           назва моделі процесора (не може бути null або пустою)
+     * @param price          вартість процесора (має бути не менше 0)
+     * @param compInterface  сокет процесора (не може бути null)
      * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
-     * @throws NullPointerException якщо назва є null
+     * @throws NullPointerException     якщо назва або інтерфейс є null
      */
-    public CPU(String name, double price) {
+    public CPU(String name, double price, String compInterface) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
-        this.name = name;
+        if (compInterface == null) throw new NullPointerException("Інтерфейс не може бути null");
         this.price = price;
+        this.name = name;
+        this.compInterface = CPUSocket.fromValue(compInterface);
     }
+
+    public CPU() {}
+
 
     /**
      * Конструктор копіювання, що створює новий об'єкт CPU на основі існуючого.
@@ -45,10 +52,6 @@ public class CPU {
         this.name = other.name;
         this.price = other.price;
         this.id = other.id;
-    }
-
-    public CPU() {
-
     }
 
     /**
@@ -95,6 +98,11 @@ public class CPU {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public CPUSocket getCompInterface() {
+        return compInterface;
+    }
+
 
     /**
      * Порівнює об'єкт CPU з іншим об'єктом на рівність.

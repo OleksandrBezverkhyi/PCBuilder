@@ -1,8 +1,9 @@
 package com.example.pcbuilder.model;
 
-import com.example.pcbuilder.model.enums.IStringRepresentable;
+import com.example.pcbuilder.model.enums.*;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,22 +20,64 @@ public class Motherboard {
 
     private String name;
     private double price;
-    private List<IStringRepresentable> compInterfaces;
+    @Enumerated(EnumType.STRING)
+    CaseFormFactor caseFormFactor;
+    @Enumerated(EnumType.STRING)
+    CPUSocket cpuSocket;
+    @Enumerated(EnumType.STRING)
+    GPUInterface gpuInterface;
+    @Enumerated(EnumType.STRING)
+    RAMInterface ramInterface;
+    @Enumerated(EnumType.STRING)
+    StorageInterface storageInterface;
+    int ramCount;
 
     /**
-     * Основной конструктор для створення об'єкта материнської плати.
+     * Основний конструктор для створення об'єкта материнської плати.
      *
-     * @param name назва моделі материнської плати (наприклад, "ASUS ROG Strix Z790-E")
-     * @param price вартість материнської плати у грошових одиницях
-     * @throws IllegalArgumentException якщо передана ціна є від'ємною
+     * @param name              назва моделі материнської плати (не може бути null або пустою)
+     * @param price             вартість материнської плати (має бути не менше 0)
+     * @param caseFormFactor    форм-фактор корпусу, що підтримується (не може бути null)
+     * @param cpuSocket         сокет процесора (не може бути null)
+     * @param gpuInterface      інтерфейс відеокарти (не може бути null)
+     * @param ramInterface      інтерфейс оперативної пам'яті (не може бути null)
+     * @param storageInterface  інтерфейс накопичувача (не може бути null)
+     * @param ramCount          кількість підтримуваних слотів RAM (має бути > 0)
+     * @throws IllegalArgumentException якщо ціна від'ємна, назва пуста або ramCount <= 0
+     * @throws NullPointerException     якщо будь-який з інтерфейсів або назва є null
      */
-    public Motherboard(String name, double price) {
+    public Motherboard(
+            String name,
+            double price,
+            String caseFormFactor,
+            String cpuSocket,
+            String gpuInterface,
+            String ramInterface,
+            String storageInterface,
+            int ramCount
+    ) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
+
+        if (caseFormFactor == null) throw new NullPointerException("CaseFormFactor не може бути null");
+        if (cpuSocket == null) throw new NullPointerException("CPUSocket не може бути null");
+        if (gpuInterface == null) throw new NullPointerException("GPUInterface не може бути null");
+        if (ramInterface == null) throw new NullPointerException("RAMInterface не може бути null");
+        if (storageInterface == null) throw new NullPointerException("StorageInterface не може бути null");
+
+        if (ramCount <= 0) throw new IllegalArgumentException("Кількість слотів RAM має бути більшою за 0");
+
         this.name = name;
         this.price = price;
+        this.caseFormFactor = CaseFormFactor.fromValue(caseFormFactor);
+        this.cpuSocket = CPUSocket.fromValue(cpuSocket);
+        this.gpuInterface = GPUInterface.fromValue(gpuInterface);
+        this.ramInterface = RAMInterface.fromValue(ramInterface);
+        this.storageInterface = StorageInterface.fromValue(storageInterface);
+        this.ramCount = ramCount;
     }
+
 
     public Motherboard() {}
 
@@ -69,13 +112,42 @@ public class Motherboard {
         return name;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public CaseFormFactor getCaseFormFactor() {
+        return caseFormFactor;
+    }
+
+    public CPUSocket getCpuSocket() {
+        return cpuSocket;
+    }
+
+    public GPUInterface getGpuInterface() {
+        return gpuInterface;
+    }
+
+    public RAMInterface getRamInterface() {
+        return ramInterface;
+    }
+
+    public StorageInterface getStorageInterface() {
+        return storageInterface;
+    }
+
+    public int getRAMCount() {
+        return ramCount;
+    }
+
     /**
      * Повертає рядкове представлення об'єкта Motherboard.
      */
     @Override
     public String toString() {
         return "Motherboard{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
     }

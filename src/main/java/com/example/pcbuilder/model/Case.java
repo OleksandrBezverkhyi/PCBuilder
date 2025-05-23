@@ -19,28 +19,29 @@ public class Case {
 
     private String name;
     private double price;
+    @Enumerated(EnumType.STRING)
     private CaseFormFactor compInterface;
-
-
 
     /**
      * Основний конструктор для створення об'єкта корпусу комп'ютера.
      *
-     * @param name  назва моделі корпусу (не може бути null або пустою)
-     * @param price вартість корпусу (має бути не менше 0)
+     * @param name           назва моделі корпусу (не може бути null або пустою)
+     * @param price          вартість корпусу (має бути не менше 0)
+     * @param compInterface  форм-фактор корпусу (не може бути null)
      * @throws IllegalArgumentException якщо ціна від'ємна або назва пуста
-     * @throws NullPointerException     якщо назва є null
+     * @throws NullPointerException     якщо назва або інтерфейс є null
      */
-    public Case(String name, double price) {
+    public Case(String name, double price, String compInterface) {
         if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
         if (name == null) throw new NullPointerException("Ім'я не може бути null");
         if (name.isBlank()) throw new IllegalArgumentException("Ім'я не може бути пустим");
+        if (compInterface == null) throw new NullPointerException("Інтерфейс не може бути null");
         this.price = price;
         this.name = name;
+        this.compInterface = CaseFormFactor.fromValue(compInterface);
     }
 
-    public Case() {
-    }
+    public Case() { }
 
     /**
      * Конструктор копіювання для створення нового корпусу на основі існуючого.
@@ -87,6 +88,14 @@ public class Case {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public CaseFormFactor getCompInterface() {
+        return compInterface;
+    }
+
+    public void setCompInterface(CaseFormFactor compInterface) {
+        this.compInterface = compInterface;
     }
 
     /**
