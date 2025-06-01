@@ -96,5 +96,33 @@ public class ComputerBuilder {
 
         return new Computer(cpu, gpu, ram, storage, motherboard, psu, pcCase);
     }
+
+    public CPU getCpu() {
+        return cpu;
+    }
+
+    public GPU getGpu() {
+        return gpu;
+    }
+
+    public RAM getRam() {
+        return ram;
+    }
+
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public Case getPcCase() {
+        return pcCase;
+    }
+
+    public PSU getPsu() {
+        return psu;
+    }
+
+    public Motherboard getMotherboard() {
+        return motherboard;
+    }
 }
 
