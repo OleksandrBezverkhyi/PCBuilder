@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const selectedComponents = new Set();
   components.forEach((comp) => loadOptions(comp, selectedComponents));
 
+  // Add component selection event listeners
   components.forEach((comp) => {
     const select = document.getElementById(comp);
     const infoBox = document.getElementById(`${comp}-info`);
@@ -37,10 +38,43 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const data = {};
+      const missingComponents = [];
+
+      // Check for missing components
       components.forEach((comp) => {
+        const select = document.getElementById(comp);
         const key = comp === "pc_case" ? "CASE" : comp.toUpperCase();
-        data[key] = document.getElementById(comp).value;
+        const value = select.value;
+
+        if (!value) {
+          missingComponents.push(comp.replace("_", " ").toUpperCase());
+        }
+        data[key] = value;
       });
+
+      // Show error if components are missing
+      if (missingComponents.length > 0) {
+        const missingList = missingComponents.join(", ");
+        document.getElementById("result").innerHTML = `
+          <div class="error-message">
+            <h3>⚠️ Missing Components</h3>
+            <p>Please select the following components to continue:</p>
+            <ul>
+              ${missingComponents.map((comp) => `<li>${comp}</li>`).join("")}
+            </ul>
+          </div>`;
+        document.getElementById("result").classList.add("visible");
+        document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+
+      // Show loading state
+      document.getElementById("result").innerHTML = `
+        <div class="loading-message">
+          <p>Building your PC configuration...</p>
+          <div class="loading-spinner"></div>
+        </div>`;
+      document.getElementById("result").classList.add("visible");
 
       console.log("Sending data:", data);
 
@@ -51,58 +85,87 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify(data),
         });
 
+        const result = await response.json();
+
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(result.message || `HTTP error! status: ${response.status}`);
         }
 
-        const result = await response.json();
         console.log("Received response:", result);
 
+        // Create a more detailed and organized display of the computer build
         let output = `
 <div class="result-box">
     <h1>
-        <span class="white-text">Your</span>
-        <span class="orange-box">PC</span>
+        <span class="white-text">Your Custom</span>
+        <span class="orange-box">PC Build</span>
     </h1>
-    <ul>`;
+    <div class="build-details">
+        <div class="components-list">
+            <h2 class="orange">Components:</h2>
+            <ul>`;
+
         for (const key in result.components) {
-          output += `<li><strong class="orange">${key}:</strong> ${result.components[key]}</li>`;
-        }
-
-        output += `</ul>
-    <p><strong class="orange">Total price:</strong> ${result.totalPrice} UAH</p>`;
-
-        if (
-          result.compatibilityIssues &&
-          Object.keys(result.compatibilityIssues).length > 0
-        ) {
           output += `
-    <div class="compatibility-issues">
-        <h3 class="orange">Compatibility warnings:</h3>
-        <ul>`;
-          for (const key in result.compatibilityIssues) {
-            output += `<li>${result.compatibilityIssues[key]}</li>`;
-          }
-          output += `</ul>
-    </div>`;
+                <li>
+                    <div class="component-item">
+                        <strong class="orange">${key}:</strong>
+                        <span class="component-name">${result.components[key]}</span>
+                    </div>
+                </li>`;
         }
 
-        output += `</div>`;
+        output += `
+            </ul>
+        </div>
+        <div class="build-summary">
+            <h2 class="orange">Build Summary</h2>
+            <div class="total-price">
+                <strong>Total Price:</strong>
+                <span class="price-value">${result.totalPrice.toLocaleString()} UAH</span>
+            </div>`;
+
+        if (result.compatibilityIssues && Object.keys(result.compatibilityIssues).length > 0) {
+          output += `
+            <div class="compatibility-issues">
+                <h3 class="orange">Compatibility Check:</h3>
+                <ul class="issues-list">`;
+          for (const key in result.compatibilityIssues) {
+            output += `
+                    <li class="issue-item">
+                        <span class="warning-icon">⚠️</span>
+                        ${result.compatibilityIssues[key]}
+                    </li>`;
+          }
+          output += `
+                </ul>
+            </div>`;
+        } else {
+          output += `
+            <div class="compatibility-success">
+                <p>✅ All components are compatible!</p>
+            </div>`;
+        }
+
+        output += `
+        </div>
+    </div>
+</div>`;
 
         document.getElementById("result").innerHTML = output;
         document.getElementById("result").classList.add("visible");
-        document
-          .getElementById("result")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("result").scrollIntoView({ behavior: "smooth" });
       } catch (error) {
         console.error("Error:", error);
-        document.getElementById("result").innerHTML =
-          "<p>An error occurred while assembling your PC. " +
-          "Make sure you have selected all of your PC components and try again.</p>";
+        document.getElementById("result").innerHTML = `
+          <div class="error-message">
+            <h3>⚠️ Error Building PC</h3>
+            <p>An error occurred while assembling your PC:</p>
+            <p class="error-details">${error.message}</p>
+            <p>Please try again or contact support if the problem persists.</p>
+          </div>`;
         document.getElementById("result").classList.add("visible");
-        document
-          .getElementById("result")
-          .scrollIntoView({ behavior: "smooth" });
+        document.getElementById("result").scrollIntoView({ behavior: "smooth" });
       }
     });
 });
