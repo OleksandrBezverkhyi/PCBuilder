@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * REST контролер для обробки запитів на збірку ПК.
+ * Надає кінцеву точку для користувачів, щоб вони могли вибрати компоненти та перевірити їх сумісність.
+ */
 @RestController
 @RequestMapping("/api/build")
 public class BuildController {
@@ -17,12 +21,22 @@ public class BuildController {
     @Autowired
     private PcBuilderService pcBuilderService;
 
+    /**
+     * Збирає конфігурацію ПК на основі наданих компонентів у запиті.
+     * Цей метод отримує деталі кожного вибраного компонента, розраховує загальну ціну
+     * та виконує перевірку сумісності між певними компонентами.
+     *
+     * @param request Об'єкт {@link BuildRequest}, що містить ідентифікатори вибраних компонентів.
+     * @return Об'єкт {@link BuildResponse}, що містить вибрані компоненти, загальну ціну
+     * та будь-які виявлені проблеми сумісності.
+     */
     @PostMapping
     public BuildResponse buildPC(@RequestBody BuildRequest request) {
         Map<String, String> selectedComponents = new LinkedHashMap<>();
         Map<String, String> compatibilityIssues = new LinkedHashMap<>();
         double totalPrice = 0;
 
+        // Отримання компонентів за їхніми ідентифікаторами
         CPU cpu = pcBuilderService.getCpuById(request.CPU);
         GPU gpu = pcBuilderService.getGpuById(request.GPU);
         RAM ram = pcBuilderService.getRamById(request.RAM);
@@ -31,6 +45,7 @@ public class BuildController {
         PSU psu = pcBuilderService.getPsuById(request.PSU);
         Case pcCase = pcBuilderService.getCaseById(request.CASE);
 
+        // Додавання вибраних компонентів до мапи та розрахунок загальної ціни
         if (cpu != null) {
             selectedComponents.put("CPU", cpu.getName());
             totalPrice += cpu.getPrice();
@@ -66,25 +81,26 @@ public class BuildController {
             totalPrice += pcCase.getPrice();
         }
 
-        // CPU <-> Motherboard
+        // Виконання перевірок сумісності
+        // Перевірка сумісності CPU <-> Материнська плата
         if (cpu != null && motherboard != null && !cpu.getSocket().equals(motherboard.getSocket())) {
-            compatibilityIssues.put("CPU/Motherboard",
-                    "Incompatible sockets: CPU (" + cpu.getSocket() + ") ≠ Motherboard (" + motherboard.getSocket() + ")");
+            compatibilityIssues.put("CPU/Материнська плата",
+                    "Несумісні сокети: CPU (" + cpu.getSocket() + ") ≠ Материнська плата (" + motherboard.getSocket() + ")");
         }
 
-        // PSU <-> GPU
+        // Перевірка сумісності потужності PSU <-> GPU
         if (gpu != null && psu != null && psu.getWattage() < gpu.getMinPsuWattage()) {
             compatibilityIssues.put("PSU/GPU",
-                    "Insufficient PSU wattage: PSU (" + psu.getWattage() + "W) < GPU minimum (" + gpu.getMinPsuWattage() + "W)");
+                    "Недостатня потужність БЖ: БЖ (" + psu.getWattage() + " Вт) < мінімальна для GPU (" + gpu.getMinPsuWattage() + " Вт)");
         }
 
-        // Case <-> GPU
+        // Перевірка сумісності довжини корпусу <-> GPU
         if (gpu != null && pcCase != null && gpu.getLengthMm() > pcCase.getMaxGpuLengthMm()) {
-            compatibilityIssues.put("Case/GPU",
-                    "GPU is too long: GPU (" + gpu.getLengthMm() + "mm) > Case maximum (" + pcCase.getMaxGpuLengthMm() + "mm)");
+            compatibilityIssues.put("Корпус/GPU",
+                    "GPU занадто довгий: GPU (" + gpu.getLengthMm() + " мм) > максимальна довжина корпусу (" + pcCase.getMaxGpuLengthMm() + " мм)");
         }
 
-        System.out.println("Total Price: " + totalPrice);
+        System.out.println("Загальна ціна: " + totalPrice);
 
         return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
     }

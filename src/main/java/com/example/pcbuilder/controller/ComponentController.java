@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST контролер для керування компонентами ПК.
+ * Надає кінцеві точки для отримання списків різних типів компонентів.
+ */
 @RestController
 @RequestMapping("/api/components")
 public class ComponentController {
@@ -31,6 +35,14 @@ public class ComponentController {
     @Autowired
     private CaseRepository pcCaseRepository;
 
+    /**
+     * Отримує список компонентів на основі вказаного типу.
+     * Тип надається як змінна шляху (path variable) в URL.
+     *
+     * @param type Тип компонента для отримання (наприклад, "cpu", "gpu", "ram" тощо).
+     * @return Список компонентів вказаного типу.
+     * @throws IllegalArgumentException якщо запитується невідомий тип компонента.
+     */
     @GetMapping("/{type}")
     public List<?> getComponentsByType(@PathVariable String type) {
         System.out.println("Fetching components for type: " + type);
