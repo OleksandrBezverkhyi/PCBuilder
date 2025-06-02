@@ -84,23 +84,24 @@ public class BuildController {
         // Виконання перевірок сумісності
         // Перевірка сумісності CPU <-> Материнська плата
         if (cpu != null && motherboard != null && !cpu.getSocket().equals(motherboard.getSocket())) {
-            compatibilityIssues.put("CPU/Материнська плата",
-                    "Несумісні сокети: CPU (" + cpu.getSocket() + ") ≠ Материнська плата (" + motherboard.getSocket() + ")");
+            compatibilityIssues.put("CPU/Motherboard",
+                    "Incompatible sockets: CPU (" + cpu.getSocket() + ") ≠ Motherboard (" + motherboard.getSocket() + ")");
         }
 
         // Перевірка сумісності потужності PSU <-> GPU
         if (gpu != null && psu != null && psu.getWattage() < gpu.getMinPsuWattage()) {
             compatibilityIssues.put("PSU/GPU",
-                    "Недостатня потужність БЖ: БЖ (" + psu.getWattage() + " Вт) < мінімальна для GPU (" + gpu.getMinPsuWattage() + " Вт)");
+                    "Insufficient PSU wattage: PSU (" + psu.getWattage() + "W) < GPU minimum (" + gpu.getMinPsuWattage() + "W)");
         }
 
         // Перевірка сумісності довжини корпусу <-> GPU
         if (gpu != null && pcCase != null && gpu.getLengthMm() > pcCase.getMaxGpuLengthMm()) {
-            compatibilityIssues.put("Корпус/GPU",
-                    "GPU занадто довгий: GPU (" + gpu.getLengthMm() + " мм) > максимальна довжина корпусу (" + pcCase.getMaxGpuLengthMm() + " мм)");
+            compatibilityIssues.put("Case/GPU",
+                    "GPU is too long: GPU (" + gpu.getLengthMm() + "mm) > Case maximum (" + pcCase.getMaxGpuLengthMm() + "mm)");
         }
 
-        System.out.println("Загальна ціна: " + totalPrice);
+        // Змінено вивід на англійську мову
+        System.out.println("Total Price: " + totalPrice);
 
         return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
     }
