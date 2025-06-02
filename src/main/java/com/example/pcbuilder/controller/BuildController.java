@@ -45,35 +45,35 @@ public class BuildController {
 
         try {
             // Перевіряємо, чи всі необхідні ID компонентів надані в запиті
-            if (request.MOTHERBOARD == null) throw new IllegalArgumentException("Потрібен ID материнської плати.");
-            if (request.CPU == null) throw new IllegalArgumentException("Потрібен ID процесора (CPU).");
-            if (request.GPU == null) throw new IllegalArgumentException("Потрібен ID відеокарти (GPU).");
-            if (request.RAM == null) throw new IllegalArgumentException("Потрібен ID оперативної пам'яті (RAM).");
-            if (request.STORAGE == null) throw new IllegalArgumentException("Потрібен ID пристрою зберігання даних.");
-            if (request.PSU == null) throw new IllegalArgumentException("Потрібен ID блока живлення (PSU).");
-            if (request.CASE == null) throw new IllegalArgumentException("Потрібен ID корпусу.");
+            if (request.MOTHERBOARD == null) throw new IllegalArgumentException("Motherboard ID is required.");
+            if (request.CPU == null) throw new IllegalArgumentException("CPU ID is required.");
+            if (request.GPU == null) throw new IllegalArgumentException("GPU ID is required.");
+            if (request.RAM == null) throw new IllegalArgumentException("RAM ID is required.");
+            if (request.STORAGE == null) throw new IllegalArgumentException("Storage ID is required.");
+            if (request.PSU == null) throw new IllegalArgumentException("PSU ID is required.");
+            if (request.CASE == null) throw new IllegalArgumentException("Case ID is required.");
 
-            // Отримуємо деталі компонентів від сервісу за наданими ID
+// Отримуємо деталі компонентів від сервісу за наданими ID
             Motherboard motherboard = pcBuilderService.getMotherboardById(request.MOTHERBOARD);
-            if (motherboard == null) throw new IllegalArgumentException("Материнська плата не знайдена за ID: " + request.MOTHERBOARD);
+            if (motherboard == null) throw new IllegalArgumentException("Motherboard not found for ID: " + request.MOTHERBOARD);
 
             CPU cpu = pcBuilderService.getCpuById(request.CPU);
-            if (cpu == null) throw new IllegalArgumentException("Процесор не знайдений за ID: " + request.CPU);
+            if (cpu == null) throw new IllegalArgumentException("CPU not found for ID: " + request.CPU);
 
             GPU gpu = pcBuilderService.getGpuById(request.GPU);
-            if (gpu == null) throw new IllegalArgumentException("Відеокарта не знайдена за ID: " + request.GPU);
+            if (gpu == null) throw new IllegalArgumentException("GPU not found for ID: " + request.GPU);
 
             RAM ram = pcBuilderService.getRamById(request.RAM);
-            if (ram == null) throw new IllegalArgumentException("Оперативна пам'ять не знайдена за ID: " + request.RAM);
+            if (ram == null) throw new IllegalArgumentException("RAM not found for ID: " + request.RAM);
 
             Storage storage = pcBuilderService.getStorageById(request.STORAGE);
-            if (storage == null) throw new IllegalArgumentException("Пристрій зберігання даних не знайдений за ID: " + request.STORAGE);
+            if (storage == null) throw new IllegalArgumentException("Storage not found for ID: " + request.STORAGE);
 
             PSU psu = pcBuilderService.getPsuById(request.PSU);
-            if (psu == null) throw new IllegalArgumentException("Блок живлення не знайдений за ID: " + request.PSU);
+            if (psu == null) throw new IllegalArgumentException("PSU not found for ID: " + request.PSU);
 
             Case pcCase = pcBuilderService.getCaseById(request.CASE);
-            if (pcCase == null) throw new IllegalArgumentException("Корпус не знайдений за ID: " + request.CASE);
+            if (pcCase == null) throw new IllegalArgumentException("Case not found for ID: " + request.CASE);
 
             // Використовуємо ComputerBuilder для збірки ПК.
             // Материнська плата встановлюється першою, оскільки сумісність інших компонентів часто залежить від неї.
@@ -129,7 +129,6 @@ public class BuildController {
                             pcCase.getPrice();
                 } catch (IllegalStateException e) {
                     // Перехоплюємо будь-які остаточні помилки перевірки під час збірки з методу ComputerBuilder.build().
-
                     compatibilityIssues.put("Build Error", e.getMessage());
                 }
             }
