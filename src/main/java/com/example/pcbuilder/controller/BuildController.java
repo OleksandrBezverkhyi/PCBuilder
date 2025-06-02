@@ -129,6 +129,7 @@ public class BuildController {
                             pcCase.getPrice();
                 } catch (IllegalStateException e) {
                     // Перехоплюємо будь-які остаточні помилки перевірки під час збірки з методу ComputerBuilder.build().
+
                     compatibilityIssues.put("Build Error", e.getMessage());
                 }
             }

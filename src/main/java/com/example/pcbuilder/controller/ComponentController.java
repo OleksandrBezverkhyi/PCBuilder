@@ -58,7 +58,6 @@ public class ComponentController {
             case "pc_case" -> pcCaseRepository.findAll();
             default -> throw new IllegalArgumentException("Unknown component type: " + type); // Handle unknown types
         };
-
         return components;
     }
 }
