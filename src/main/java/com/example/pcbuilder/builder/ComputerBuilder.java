@@ -29,14 +29,14 @@ public class ComputerBuilder {
      * @throws NullPointerException якщо наданий CPU є null.
      */
     public ComputerBuilder setCpu(CPU cpu) {
-        Objects.requireNonNull(cpu, "CPU cannot be null");
+        Objects.requireNonNull(cpu, "CPU не може бути null");
         // Перевірка сумісності сокета CPU з материнською платою
         if (motherboard == null || cpu.getCompInterface() == motherboard.getCpuSocket()) {
             this.cpu = cpu;
         } else {
             // Якщо несумісний, встановлюємо CPU в null, щоб вказати, що він не вибраний
             this.cpu = null;
-            System.out.println("Warning: CPU socket " + cpu.getCompInterface() + " is incompatible with motherboard socket " + motherboard.getCpuSocket());
+            System.out.println("Попередження: Сокет CPU " + cpu.getCompInterface() + " несумісний з сокетом материнської плати " + motherboard.getCpuSocket());
         }
         return this;
     }
@@ -51,14 +51,14 @@ public class ComputerBuilder {
      * @throws NullPointerException якщо наданий GPU є null.
      */
     public ComputerBuilder setGpu(GPU gpu) {
-        Objects.requireNonNull(gpu, "GPU cannot be null");
+        Objects.requireNonNull(gpu, "GPU не може бути null");
         // Перевірка сумісності інтерфейсу GPU з материнською платою
         if (motherboard == null || motherboard.getGpuInterface().isCompatibleWith(gpu.getCompInterface())) {
             this.gpu = gpu;
         } else {
             // Якщо несумісний, встановлюємо GPU в null
             this.gpu = null;
-            System.out.println("Warning: GPU interface " + gpu.getCompInterface() + " is incompatible with motherboard interface " + motherboard.getGpuInterface());
+            System.out.println("Попередження: Інтерфейс GPU " + gpu.getCompInterface() + " несумісний з інтерфейсом материнської плати " + motherboard.getGpuInterface());
         }
         return this;
     }
@@ -75,9 +75,9 @@ public class ComputerBuilder {
      * @throws IllegalArgumentException якщо count менше або дорівнює 0.
      */
     public ComputerBuilder setRam(RAM ram, int count) {
-        Objects.requireNonNull(ram, "RAM cannot be null");
+        Objects.requireNonNull(ram, "RAM не може бути null");
         if (count <= 0) {
-            throw new IllegalArgumentException("RAM count must be greater than 0");
+            throw new IllegalArgumentException("Кількість RAM має бути більшою за 0");
         }
         // Перевірка сумісності інтерфейсу RAM з материнською платою
         if (motherboard == null || ram.getCompInterface() == motherboard.getRamInterface()) {
@@ -86,7 +86,7 @@ public class ComputerBuilder {
         } else {
             // Якщо несумісний, встановлюємо RAM в null
             this.ram = null;
-            System.out.println("Warning: RAM interface " + ram.getCompInterface() + " is incompatible with motherboard interface " + motherboard.getRamInterface());
+            System.out.println("Попередження: Інтерфейс RAM " + ram.getCompInterface() + " несумісний з інтерфейсом материнської плати " + motherboard.getRamInterface());
         }
         return this;
     }
@@ -101,14 +101,14 @@ public class ComputerBuilder {
      * @throws NullPointerException якщо наданий Storage є null.
      */
     public ComputerBuilder setStorage(Storage storage) {
-        Objects.requireNonNull(storage, "Storage cannot be null");
+        Objects.requireNonNull(storage, "Storage не може бути null");
         // Перевірка сумісності інтерфейсу зберігання з материнською платою
         if (motherboard == null || storage.getCompInterface() == motherboard.getStorageInterface()) {
             this.storage = storage;
         } else {
             // Якщо несумісний, встановлюємо Storage в null
             this.storage = null;
-            System.out.println("Warning: Storage interface " + storage.getCompInterface() + " is incompatible with motherboard interface " + motherboard.getStorageInterface());
+            System.out.println("Попередження: Інтерфейс Storage " + storage.getCompInterface() + " несумісний з інтерфейсом материнської плати " + motherboard.getStorageInterface());
         }
         return this;
     }
@@ -121,7 +121,7 @@ public class ComputerBuilder {
      * @throws NullPointerException якщо наданий PSU є null.
      */
     public ComputerBuilder setPsu(PSU psu) {
-        Objects.requireNonNull(psu, "PSU cannot be null");
+        Objects.requireNonNull(psu, "PSU не може бути null");
         this.psu = psu;
         return this;
     }
@@ -136,14 +136,14 @@ public class ComputerBuilder {
      * @throws NullPointerException якщо наданий Case є null.
      */
     public ComputerBuilder setCase(Case pcCase) {
-        Objects.requireNonNull(pcCase, "PC Case cannot be null");
+        Objects.requireNonNull(pcCase, "Корпус ПК не може бути null");
         // Перевірка сумісності форм-фактора корпусу з материнською платою
         if (motherboard == null || pcCase.getCompInterface().fits(motherboard.getCaseFormFactor())) {
             this.pcCase = pcCase;
         } else {
             // Якщо несумісний, встановлюємо Case в null
             this.pcCase = null;
-            System.out.println("Warning: Case form factor " + pcCase.getCompInterface() + " does not fit motherboard form factor " + motherboard.getCaseFormFactor());
+            System.out.println("Попередження: Форм-фактор корпусу " + pcCase.getCompInterface() + " не підходить для форм-фактора материнської плати " + motherboard.getCaseFormFactor());
         }
         return this;
     }
@@ -179,13 +179,13 @@ public class ComputerBuilder {
      * @throws IllegalStateException якщо будь-який необхідний компонент (CPU, GPU, RAM, Storage, Motherboard, PSU, Case) не встановлений.
      */
     public Computer build() {
-        if (cpu == null) throw new IllegalStateException("CPU is not set");
-        if (gpu == null) throw new IllegalStateException("GPU is not set");
-        if (ram == null) throw new IllegalStateException("RAM is not set");
-        if (storage == null) throw new IllegalStateException("Storage is not set");
-        if (motherboard == null) throw new IllegalStateException("Motherboard is not set");
-        if (psu == null) throw new IllegalStateException("PSU is not set");
-        if (pcCase == null) throw new IllegalStateException("Case is not set");
+        if (cpu == null) throw new IllegalStateException("CPU не встановлено");
+        if (gpu == null) throw new IllegalStateException("GPU не встановлено");
+        if (ram == null) throw new IllegalStateException("RAM не встановлено");
+        if (storage == null) throw new IllegalStateException("Storage не встановлено");
+        if (motherboard == null) throw new IllegalStateException("Motherboard не встановлено");
+        if (psu == null) throw new IllegalStateException("PSU не встановлено");
+        if (pcCase == null) throw new IllegalStateException("Case не встановлено");
 
         return new Computer(cpu, gpu, ram, storage, motherboard, psu, pcCase);
     }

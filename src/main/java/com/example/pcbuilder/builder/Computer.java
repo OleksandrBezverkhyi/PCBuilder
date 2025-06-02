@@ -4,7 +4,6 @@ import com.example.pcbuilder.model.*;
 
 /**
  * Представляє повну збірку комп'ютера, інкапсулюючи всі вибрані компоненти.
- * Цей клас зазвичай використовується шаблоном "будівник" (builder pattern) для складання конфігурації ПК.
  */
 public class Computer {
     private final CPU cpu;
