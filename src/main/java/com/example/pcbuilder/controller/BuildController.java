@@ -89,19 +89,19 @@ public class BuildController {
             // Після спроби встановити компоненти в білдері, перевіряємо, які з них були фактично встановлені.
             // Якщо компонент є null в білдері, це означає, що логіка білдера виявила проблему сумісності.
             if (computerBuilder.getCpu() == null) {
-                compatibilityIssues.put("Процесор (CPU)", "Процесор несумісний з обраним сокетом материнської плати.");
+                compatibilityIssues.put("CPU", "CPU is incompatible with the selected motherboard socket.");
             }
             if (computerBuilder.getGpu() == null) {
-                compatibilityIssues.put("Відеокарта (GPU)", "Відеокарта несумісна з обраним інтерфейсом материнської плати.");
+                compatibilityIssues.put("GPU", "GPU is incompatible with the selected motherboard interface.");
             }
             if (computerBuilder.getRam() == null) {
-                compatibilityIssues.put("Оперативна пам'ять (RAM)", "Оперативна пам'ять несумісна з обраним інтерфейсом RAM материнської плати.");
+                compatibilityIssues.put("RAM", "RAM is incompatible with the selected motherboard RAM interface.");
             }
             if (computerBuilder.getStorage() == null) {
-                compatibilityIssues.put("Накопичувач", "Накопичувач несумісний з обраним інтерфейсом накопичувача материнської плати.");
+                compatibilityIssues.put("Storage", "Storage device is incompatible with the selected motherboard storage interface.");
             }
             if (computerBuilder.getPcCase() == null) {
-                compatibilityIssues.put("Корпус", "Форм-фактор корпусу несумісний з обраною материнською платою.");
+                compatibilityIssues.put("Case", "Case form factor is incompatible with the selected motherboard.");
             }
 
             // Якщо білдер не виявив проблем сумісності, продовжуємо завершення збірки.
@@ -112,13 +112,13 @@ public class BuildController {
                     Computer computer = computerBuilder.build();
 
                     // Додаємо успішно вибрані компоненти та розраховуємо загальну вартість
-                    selectedComponents.put("Материнська плата", motherboard.getName());
-                    selectedComponents.put("Процесор", cpu.getName());
-                    selectedComponents.put("Відеокарта", gpu.getName());
-                    selectedComponents.put("Оперативна пам'ять", ram.getName());
-                    selectedComponents.put("Накопичувач", storage.getName());
-                    selectedComponents.put("Блок живлення", psu.getName());
-                    selectedComponents.put("Корпус", pcCase.getName());
+                    selectedComponents.put("Motherboard", motherboard.getName());
+                    selectedComponents.put("CPU", cpu.getName());
+                    selectedComponents.put("GPU", gpu.getName());
+                    selectedComponents.put("RAM", ram.getName());
+                    selectedComponents.put("Storage", storage.getName());
+                    selectedComponents.put("PSU", psu.getName());
+                    selectedComponents.put("Case", pcCase.getName());
 
                     totalPrice = motherboard.getPrice() +
                             cpu.getPrice() +
@@ -129,7 +129,7 @@ public class BuildController {
                             pcCase.getPrice();
                 } catch (IllegalStateException e) {
                     // Перехоплюємо будь-які остаточні помилки перевірки під час збірки з методу ComputerBuilder.build().
-                    compatibilityIssues.put("Помилка збірки", e.getMessage());
+                    compatibilityIssues.put("Build Error", e.getMessage());
                 }
             }
 
@@ -137,13 +137,13 @@ public class BuildController {
             return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
         } catch (IllegalArgumentException e) {
             // Обробляємо випадки, коли вхідні ID відсутні або компоненти не знайдено.
-            compatibilityIssues.put("Помилка вхідних даних", e.getMessage());
+            compatibilityIssues.put("Input Error", e.getMessage());
             return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
         } catch (Exception e) {
             // Перехоплюємо будь-які несподівані винятки під час процесу.
-            compatibilityIssues.put("Несподівана помилка", "Виникла несподівана помилка: " + e.getMessage());
+            compatibilityIssues.put("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
             // Логуємо виняток для налагодження (наприклад, за допомогою логера, такого як SLF4J)
-            System.err.println("Виникла несподівана помилка під час збірки ПК: " + e.getMessage());
+            System.err.println("An unexpected error occurred during PC build: " + e.getMessage());
             return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
         }
     }

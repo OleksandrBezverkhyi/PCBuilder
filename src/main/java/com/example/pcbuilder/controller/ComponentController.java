@@ -45,7 +45,7 @@ public class ComponentController {
      */
     @GetMapping("/{type}")
     public List<?> getComponentsByType(@PathVariable String type) {
-        System.out.println("Отримання компонентів для типу: " + type); // Логуємо тип компонента, який отримується
+        System.out.println("Fetching components for type: " + type); // Логуємо тип компонента, який отримується
 
         // Використовуємо вираз switch для визначення, який репозиторій запитувати на основі типу компонента.
         List<?> components = switch (type.toLowerCase()) {
@@ -56,7 +56,7 @@ public class ComponentController {
             case "motherboard" -> motherboardRepository.findAll();
             case "psu" -> psuRepository.findAll();
             case "pc_case" -> pcCaseRepository.findAll();
-            default -> throw new IllegalArgumentException("Невідомий тип компонента: " + type); // Обробка невідомих типів
+            default -> throw new IllegalArgumentException("Unknown component type: " + type); // Handle unknown types
         };
 
         return components;
