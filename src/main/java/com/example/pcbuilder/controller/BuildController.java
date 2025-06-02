@@ -141,6 +141,7 @@ public class BuildController {
             compatibilityIssues.put("Input Error", e.getMessage());
             return new BuildResponse(selectedComponents, totalPrice, compatibilityIssues);
         } catch (Exception e) {
+
             // Перехоплюємо будь-які несподівані винятки під час процесу.
             compatibilityIssues.put("Unexpected Error", "An unexpected error occurred: " + e.getMessage());
             // Логуємо виняток для налагодження (наприклад, за допомогою логера, такого як SLF4J)
